@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>sanji-auth-ui config ui</title>
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic">
+</head>
+
+<body ng-app="webapp">
+  <!--[if lt IE 8]>
+  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <div class="container" ng-controller="AppController as vm">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h3>sanji-auth-ui</h3>
+      </div>
+    </md-toolbar>
+
+    <div layout="row" layout-padding layout-align="center center">
+      <div flex="33">
+        <div ng-switch="vm.state">
+          <md-content ng-switch-default>
+            <h3 style="text-align: center">Login</h3>
+            <form name="loginForm" ng-submit="vm.login(vm.credentials)">
+              <md-input-container>
+                <label>User Name</label>
+                <input type="text" required name="username"
+                ng-model="vm.credentials.username">
+                <div ng-messages="loginForm.username.$error">
+                  <div ng-message="required">This is required.</div>
+                </div>
+              </md-input-container>
+              <md-input-container>
+                <label>Password</label>
+                <input type="password" required name="password"
+                ng-model="vm.credentials.password">
+                <div ng-messages="loginForm.password.$error">
+                  <div ng-message="required">This is required.</div>
+                </div>
+              </md-input-container>
+              <md-button class="md-raised md-primary">Submit</md-button>
+            </form>
+          </md-content>
+          <md-content ng-switch-when="loginSuccess">
+            <p>Login Success</p>
+          </md-content>
+        </div>
+      </div>
+    </div>
+
+    <div layout="row" layout-align="center center">
+      <span class="md-caption">from the Sanji Team</span>
+    </div>
+  </div>
+
+</body>
+
+</html>
