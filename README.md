@@ -2,7 +2,7 @@
 Sanji auth service is part of Sanji UI framework and also it is a angular module. It accounts for authenticate
 and authorize a user based on json web token.
 
-## Dependencises
+## Dependencies
 - angularjs
 - angular-http-auth
 - sanji-rest-ui
