@@ -41,11 +41,11 @@ class SessionProvider {
     }
 
     function getUserData(data) {
-      return session.get('user');
+      return get('user');
     }
 
     function setUserData(data) {
-      session.set('user', data);
+      set('user', data);
     }
 
     function getTokenHeader() {
