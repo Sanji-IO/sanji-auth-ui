@@ -4,8 +4,7 @@ class SessionProvider {
     SessionProvider.$inject.forEach((item, index) => this[item] = injects[index]);
     this.config = {
       tokenHeader: 'Authorization',
-      tokenKey: 'token',
-      userKey: 'user'
+      tokenKey: 'token'
     };
 
     this.configure = cfg => Object.assign(this.config, cfg);
@@ -15,12 +14,15 @@ class SessionProvider {
     let config = this.config;
     let session = {};
 
-    session.token = $cookies.get(config.tokenKey);
-    session[config.userKey] = null;
+    session[config.tokenKey] = $cookies.get(config.tokenKey) || null;
+    session.user = null;
 
     return {
       get: get,
       set: set,
+      getTokenKey: getTokenKey,
+      getUserData: getUserData,
+      setUserData: setUserData,
       getTokenHeader: getTokenHeader,
       create: create,
       destroy: destroy
@@ -34,24 +36,30 @@ class SessionProvider {
       session[key] = data;
     }
 
+    function getTokenKey() {
+      return config.tokenKey;
+    }
+
+    function getUserData(data) {
+      return session.get('user');
+    }
+
+    function setUserData(data) {
+      session.set('user', data);
+    }
+
     function getTokenHeader() {
       return config.tokenHeader;
     }
 
-    function create(data) {
-      $cookies.put(config.tokenKey, data.token);
-      session = {
-        token: data.token,
-        user: data.user || null
-      }
+    function create(token) {
+      $cookies.put(config.tokenKey, token);
+      session[config.tokenKey] = token;
     }
 
     function destroy() {
       $cookies.remove(config.tokenKey);
-      session = {
-        token: null,
-        user: null
-      }
+      session[config.tokenKey] = null;
     }
   }
 

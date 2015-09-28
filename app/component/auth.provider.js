@@ -35,19 +35,20 @@ class AuthProvider {
     function login(uri, credentials) {
       return rest.post(uri, credentials)
         .then(res => {
-          let token = res.data[session.get('tokenKey')];
+          let token = res.data[session.getTokenKey()];
           authService.loginConfirmed('success', function(config) {
             config.headers[session.getTokenHeader()] = 'Bearer ' + token;
             return config;
           });
-          session.create({ token: token });
+          session.create(token);
           return res;
         })
         .catch(err => $q.reject(err));
     }
 
     function isAuthenticated() {
-      return !!session.get('token');
+      let tokenKey = session.getTokenKey();
+      return !!session.get(tokenKey);
     }
 
     function isAuthorized(authorizedRoles) {
@@ -55,7 +56,7 @@ class AuthProvider {
         authorizedRoles = [authorizedRoles];
       }
       if (isAuthenticated()) {
-        let user = session.get('user');
+        let user = session.getUserData();
         if (user && user.role) {
           return (-1 !== authorizedRoles.indexOf(user.role)) ? true : false;
         }

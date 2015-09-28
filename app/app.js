@@ -20,6 +20,7 @@ class AppController {
       })
       .then((res) => {
         console.log('user data: ', res.data);
+        sesion.setUserData(res.data);
       })
       .catch(function(err) {
         console.log('login fail', err);
@@ -29,13 +30,9 @@ class AppController {
 }
 AppController.$inject = ['$http', 'auth', 'session'];
 let app = angular.module('webapp', [ngMaterial, component]);
-app.config((restProvider, authProvider, sessionProvider) => {
-  restProvider.configure({
-    basePath: ''
-  });
+app.config((authProvider, sessionProvider) => {
   sessionProvider.configure({
-    tokenHeader: 'token',
-    userKey: 'user'
+    tokenHeader: 'token'
   });
   authProvider.configure({
     role: {
