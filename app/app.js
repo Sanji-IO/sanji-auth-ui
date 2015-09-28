@@ -13,9 +13,13 @@ class AppController {
       passowrd: ''
     };
     this.login = (credentials) => {
-      this.auth.login('/auth/local', credentials)
-      .then(function(data) {
-        console.log('login success', data);
+      this.auth.login('http://private-88b4e0-sanjiauthui.apiary-mock.com/auth/local', credentials)
+      .then((data) => {
+        console.log('login success, token: ', data);
+        return this.$http.get('http://private-88b4e0-sanjiauthui.apiary-mock.com/users/me');
+      })
+      .then((res) => {
+        console.log('user data: ', res.data);
       })
       .catch(function(err) {
         console.log('login fail', err);
@@ -23,7 +27,22 @@ class AppController {
     }
   }
 }
-AppController.$inject = ['auth'];
+AppController.$inject = ['$http', 'auth', 'session'];
 let app = angular.module('webapp', [ngMaterial, component]);
+app.config((restProvider, authProvider, sessionProvider) => {
+  restProvider.configure({
+    basePath: ''
+  });
+  sessionProvider.configure({
+    tokenHeader: 'token',
+    userKey: 'user'
+  });
+  authProvider.configure({
+    role: {
+      admin: 'admin',
+      guest: 'guest'
+    }
+  });
+});
 app.controller('AppController', AppController);
 
