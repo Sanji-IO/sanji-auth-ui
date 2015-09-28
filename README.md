@@ -28,15 +28,14 @@ class AppController {
     this.credentials = { username: '', passowrd: '' };
     this.login = (credentials) => {
       // Authenticate a user
-      this.auth.login('http://private-88b4e0-sanjiauthui.apiary-mock.com/auth/local', credentials)
+      this.auth.login('/auth/local', credentials)
       .then((data) => {
         // Return token data
-        return this.$http.get('http://private-88b4e0-sanjiauthui.apiary-mock.com/users/me');
+        return this.$http.get('/users/me');
       })
       .then((res) => {
-        // Return authenticated user data
-        session.set('user', res.data);
-        console.log('user data: ', res.data);
+        // Return authenticated user data and save in session service
+        session.setUserData(res.data);
       });
     }
   }
