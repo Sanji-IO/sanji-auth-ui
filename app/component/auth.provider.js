@@ -7,8 +7,7 @@ class AuthProvider {
         admin: 'admin',
         user:  'user',
         guest: 'guest'
-      },
-      tokenKey: 'token'
+      }
     };
 
     this.configure = cfg => {
@@ -36,7 +35,7 @@ class AuthProvider {
     function login(uri, credentials) {
       return rest.post(uri, credentials)
         .then(res => {
-          let token = res.data[config.tokenKey];
+          let token = res.data[session.get('tokenKey')];
           authService.loginConfirmed('success', function(config) {
             config.headers[session.getTokenHeader()] = 'Bearer ' + token;
             return config;
