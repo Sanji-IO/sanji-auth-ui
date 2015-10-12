@@ -69,7 +69,6 @@ class AuthProvider {
       }
     }
   }
-
 }
 
 AuthProvider.$inject = $inject;
