@@ -36,7 +36,7 @@ class AuthProvider {
       return rest.post(uri, credentials)
         .then(res => {
           let token = res.data[session.getTokenKey()];
-          authService.loginConfirmed('success', function(config) {
+          authService.loginConfirmed('success', config => {
             config.headers[session.getTokenHeader()] = 'Bearer ' + token;
             return config;
           });
@@ -60,7 +60,9 @@ class AuthProvider {
         if (user && user.role) {
           return (-1 !== authorizedRoles.indexOf(user.role)) ? true : false;
         }
-        return true;
+        else {
+          return false;
+        }
       }
       else {
         return false;
