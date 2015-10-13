@@ -83,7 +83,7 @@
     "url": "https://github.com/Sanji-IO"
   },
   "license": "MIT",
-  "homepage": "https://github.com/Sanji/sanji-auth-ui",
+  "homepage": "https://github.com/Sanji-IO/sanji-auth-ui",
   "dependencies": {
     "angular": "~1.4.7",
     "angular-cookies": "~1.4.7",
