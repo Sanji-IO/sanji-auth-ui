@@ -11,6 +11,7 @@ class SessionProvider {
   }
 
   $get($cookies) {
+    'ngInject';
     let config = this.config;
     let session = {};
 

@@ -19,6 +19,7 @@ class AuthProvider {
   }
 
   $get($q, rest, authService, session) {
+    'ngInject';
     let config = this.config;
 
     return {

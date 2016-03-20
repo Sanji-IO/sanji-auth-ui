@@ -1,6 +1,6 @@
 import 'angular-material.css';
 import './app.scss';
-import 'angular';
+import angular from 'angular';
 import ngMaterial from 'angular-material';
 import component from './component';
 
@@ -18,8 +18,7 @@ class AppController {
         console.log('login success, token: ', data);
         return this.$http.get('http://private-88b4e0-sanjiauthui.apiary-mock.com/users/me');
       })
-      .then((res) => {
-        console.log('user data: ', res.data);
+      .then(res => {
         sesion.setUserData(res.data);
       })
       .catch(function(err) {

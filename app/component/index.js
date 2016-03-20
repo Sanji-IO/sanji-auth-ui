@@ -1,3 +1,4 @@
+import angular from 'angular';
 import ngCookies from 'angular-cookies';
 import 'angular-http-auth';
 import sjRest from 'sanji-rest-ui';
