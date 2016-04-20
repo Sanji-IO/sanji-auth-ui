@@ -10,13 +10,13 @@ class SessionProvider {
     this.configure = cfg => Object.assign(this.config, cfg);
   }
 
-  $get($cookies) {
+  $get(localStorageService) {
     'ngInject';
     let config = this.config;
     let session = {};
 
-    session[config.tokenKey] = $cookies.get(config.tokenKey) || null;
-    session.user = null;
+    session[config.tokenKey] = localStorageService.cookie.get(config.tokenKey) || null;
+    session.user = localStorageService.get('sj-user-profile') || null;
 
     return {
       get: get,
@@ -46,6 +46,7 @@ class SessionProvider {
     }
 
     function setUserData(data) {
+      localStorageService.set('sj-user-profile', data);
       set('user', data);
     }
 
@@ -54,12 +55,13 @@ class SessionProvider {
     }
 
     function create(token) {
-      $cookies.put(config.tokenKey, token);
+      localStorageService.cookie.set(config.tokenKey, token);
       session[config.tokenKey] = token;
     }
 
     function destroy() {
-      $cookies.remove(config.tokenKey);
+      localStorageService.cookie.remove(config.tokenKey);
+      localStorageService.remove('sj-user-profile');
       session[config.tokenKey] = null;
     }
   }
