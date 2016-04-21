@@ -1,7 +1,7 @@
 import authModule from './index' ;
 
 let authProvider;
-let $q, $httpBackend, $http, authService, session, auth, authInterceptor;
+let $q, $httpBackend, rest, authService, session, auth, authInterceptor;
 
 describe('Provider: authProvider', () => {
   beforeEach(angular.mock.module(authModule));
@@ -13,11 +13,11 @@ describe('Provider: authProvider', () => {
   });
 
   beforeEach(() => {
-    angular.mock.inject((_session_, _$q_, _authService_, _$http_, _auth_, _authInterceptor_, _$httpBackend_) => {
+    angular.mock.inject((_session_, _$q_, _authService_, _rest_, _auth_, _authInterceptor_, _$httpBackend_) => {
       $q = _$q_;
       session = _session_;
       authService = _authService_;
-      $http = _$http_;
+      rest = _rest_;
       auth = _auth_;
       $httpBackend = _$httpBackend_;
       authInterceptor = _authInterceptor_;
@@ -43,7 +43,7 @@ describe('Provider: authProvider', () => {
   });
 
   it('#$get(<...injects>) should return auth service instance', () => {
-    let obj = authProvider.$get($q, $http, authService, session);
+    let obj = authProvider.$get($q, rest, authService, session);
     expect(obj.get).to.be.a('function');
     expect(obj.login).to.be.a('function');
     expect(obj.isAuthenticated).to.be.a('function');

@@ -18,7 +18,7 @@ class AuthProvider {
     };
   }
 
-  $get($q, $http, authService, session) {
+  $get($q, rest, authService, session) {
     'ngInject';
     let config = this.config;
 
@@ -34,7 +34,7 @@ class AuthProvider {
     }
 
     function login(uri, credentials) {
-      return $http.post(uri, credentials, {
+      return rest.post(uri, credentials, null, {
         ignoreAuthModule: true
       })
       .then(res => {
