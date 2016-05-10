@@ -1,7 +1,7 @@
 import authModule from './index' ;
 
 let sessionProvider;
-let localStorageService, session;
+let localStorageService;
 
 describe('Provider: sessionProvider', () => {
   beforeEach(angular.mock.module(authModule));
@@ -13,8 +13,7 @@ describe('Provider: sessionProvider', () => {
   });
 
   beforeEach(() => {
-    angular.mock.inject((_session_, _localStorageService_) => {
-      session = _session_;
+    angular.mock.inject((_localStorageService_) => {
       localStorageService = _localStorageService_;
     });
   });
@@ -60,7 +59,7 @@ describe('Provider: sessionProvider', () => {
     it('#getTokenKey() should return settings token key name', function() {
       let obj;
       sessionProvider.configure({tokenKey: 'test'});
-      obj = sessionProvider.$get(localStorageService)
+      obj = sessionProvider.$get(localStorageService);
       expect(obj.getTokenKey()).to.equal('test');
     });
 
@@ -72,7 +71,7 @@ describe('Provider: sessionProvider', () => {
     it('#getTokenHeader() should return settings token key name', function() {
       let obj;
       sessionProvider.configure({tokenHeader: 'test'});
-      obj = sessionProvider.$get(localStorageService)
+      obj = sessionProvider.$get(localStorageService);
       expect(obj.getTokenHeader()).to.equal('test');
     });
 

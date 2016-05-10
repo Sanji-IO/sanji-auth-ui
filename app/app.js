@@ -15,16 +15,18 @@ class AppController {
     this.login = (credentials) => {
       this.auth.login('http://private-88b4e0-sanjiauthui.apiary-mock.com/auth/local', credentials)
       .then((data) => {
+        /*eslint no-console: 0*/
         console.log('login success, token: ', data);
         return this.$http.get('http://private-88b4e0-sanjiauthui.apiary-mock.com/users/me');
       })
       .then(res => {
-        sesion.setUserData(res.data);
+        this.sesion.setUserData(res.data);
       })
       .catch(function(err) {
+        /*eslint no-console: 0*/
         console.log('login fail', err);
       });
-    }
+    };
   }
 }
 AppController.$inject = ['$http', 'auth', 'session'];

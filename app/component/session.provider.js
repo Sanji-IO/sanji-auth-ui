@@ -41,7 +41,7 @@ class SessionProvider {
       return config.tokenKey;
     }
 
-    function getUserData(data) {
+    function getUserData() {
       return get('user');
     }
 

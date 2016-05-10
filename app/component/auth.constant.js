@@ -5,4 +5,4 @@ export default {
   tokenExpired:     'auth-token-expired',
   notAuthenticated: 'auth-not-authenticated',
   notAuthorized:    'auth-not-authorized'
-}
+};

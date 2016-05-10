@@ -19,4 +19,4 @@ app.config(authConfig);
 app.provider('session', SessionProvider);
 app.provider('auth', AuthProvider);
 app.factory('authInterceptor', authInterceptor);
-export default app = app.name
+export default app = app.name;
