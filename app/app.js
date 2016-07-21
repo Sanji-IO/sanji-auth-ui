@@ -2,7 +2,7 @@ import 'angular-material.css';
 import './app.scss';
 import angular from 'angular';
 import ngMaterial from 'angular-material';
-import component from './component';
+import {sjAuth} from './component';
 
 class AppController {
   constructor(...injects) {
@@ -30,7 +30,7 @@ class AppController {
   }
 }
 AppController.$inject = ['$http', 'auth', 'session'];
-let app = angular.module('webapp', [ngMaterial, component]);
+const app = angular.module('webapp', [ngMaterial, sjAuth]);
 app.config((authProvider, sessionProvider) => {
   sessionProvider.configure({
     tokenHeader: 'token'
@@ -44,3 +44,6 @@ app.config((authProvider, sessionProvider) => {
 });
 app.controller('AppController', AppController);
 
+angular.element(document).ready(() => {
+  angular.bootstrap(document.body, ['webapp']);
+});

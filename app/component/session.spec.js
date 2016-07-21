@@ -1,10 +1,13 @@
-import authModule from './index' ;
+import angular from 'angular';
+import 'angular-mocks';
+
+import {sjAuth} from './index' ;
 
 let sessionProvider;
 let localStorageService;
 
 describe('Provider: sessionProvider', () => {
-  beforeEach(angular.mock.module(authModule));
+  beforeEach(angular.mock.module(sjAuth));
 
   beforeEach(() => {
     angular.mock.module(_sessionProvider_ => {

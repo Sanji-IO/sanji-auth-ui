@@ -1,7 +1,6 @@
 'use strict';
 
 var webpack = require('webpack');
-var bourbon = require('node-bourbon').includePaths;
 var config = require('./webpack.config.js');
 
 config.devtool = 'source-map';
@@ -30,6 +29,12 @@ config.externals = {
     commonjs: 'angular-http-auth',
     amd: 'angular-http-auth'
   },
+  'angular-local-storage': {
+    root: 'LocalStorageModule',
+    commonjs2: 'angular-local-storage',
+    commonjs: 'angular-local-storage',
+    amd: 'angular-local-storage'
+  },
   'sanji-rest-ui': {
     root: 'sjRest',
     commonjs2: 'sanji-rest-ui',
@@ -38,11 +43,20 @@ config.externals = {
   }
 };
 
+config.module.postLoaders = [
+  {test: /\.js$/, loader: 'ng-annotate', exclude: /(node_modules)/}
+];
+
 config.plugins.push(
   new webpack.optimize.DedupePlugin(),
-  new webpack.optimize.AggressiveMergingPlugin(),
+  new webpack.LoaderOptionsPlugin({
+    minimize: true,
+    debug: false,
+    quiet: true
+  }),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
+      screw_ie8: true,
       warnings: false
     }
   })

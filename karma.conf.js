@@ -3,18 +3,26 @@
 
 var webpackConfig = require('./webpack.test');
 var test = process.env.NODE_ENV === 'test';
+var IS_TRAVIS = process.env.TRAVIS;
 
 module.exports = function(config) {
   config.set({
     plugins: [
-      'karma-phantomjs-launcher',
-      'karma-chai-plugins',
+      'karma-chrome-launcher',
       'karma-mocha',
+      'karma-chai-plugins',
       'karma-sourcemap-loader',
       'karma-webpack',
       'karma-coverage',
-      'karma-mocha-reporter'
+      'karma-spec-reporter'
     ],
+
+    customLaunchers: {
+      Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    },
 
     autoWatch: test,
 
@@ -50,7 +58,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha', 'coverage'],
+    reporters: ['spec', 'coverage'],
 
 
     coverageReporter: {
@@ -59,17 +67,6 @@ module.exports = function(config) {
         {type: 'json', dir: 'coverage/', subdir: '.'},
         {type: 'text-summary'}
       ]
-    },
-
-
-    // Mocha reporter options
-    mochaReporter: {
-      colors: {
-        success: 'blue',
-        info: 'bgGreen',
-        warning: 'cyan',
-        error: 'bgRed'
-      }
     },
 
 
@@ -88,11 +85,11 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: [(IS_TRAVIS) ? 'Chrome_travis_ci' : 'Chrome'],
 
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: !test
   });
-}
+};
