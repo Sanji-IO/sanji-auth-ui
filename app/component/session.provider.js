@@ -15,7 +15,7 @@ class SessionProvider {
     let config = this.config;
     let session = {};
 
-    session[config.tokenKey] = localStorageService.cookie.get(config.tokenKey) || null;
+    session[config.tokenKey] = localStorageService.get(config.tokenKey) || null;
     session.user = localStorageService.get('sj-user-profile') || null;
 
     return {
@@ -55,12 +55,12 @@ class SessionProvider {
     }
 
     function create(token) {
-      localStorageService.cookie.set(config.tokenKey, token);
+      localStorageService.set(config.tokenKey, token);
       session[config.tokenKey] = token;
     }
 
     function destroy() {
-      localStorageService.cookie.remove(config.tokenKey);
+      localStorageService.remove(config.tokenKey);
       localStorageService.remove('sj-user-profile');
       session[config.tokenKey] = null;
     }
