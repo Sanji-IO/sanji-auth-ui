@@ -1,6 +1,6 @@
 import angular from 'angular';
 import 'angular-http-auth';
-import LocalStorageModule from 'angular-local-storage';
+import LocalStorageModule from 'angular-storage';
 import {sjRest} from 'sanji-rest-ui';
 
 import authEvent from './auth.constant';
