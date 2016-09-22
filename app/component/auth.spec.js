@@ -34,7 +34,7 @@ describe('Provider: authProvider', () => {
   });
 
   it('#configure() should extend config', () => {
-    let config = {
+    const config = {
       roles: {
         admin: 'admin',
         user:  'user'
@@ -46,7 +46,7 @@ describe('Provider: authProvider', () => {
   });
 
   it('#$get(<...injects>) should return auth service instance', () => {
-    let obj = authProvider.$get($q, rest, authService, session);
+    const obj = authProvider.$get($q, rest, authService, session);
     expect(obj.get).to.be.a('function');
     expect(obj.login).to.be.a('function');
     expect(obj.isAuthenticated).to.be.a('function');
@@ -63,14 +63,13 @@ describe('Provider: authProvider', () => {
     });
 
     it('should return config without token header', () => {
-      let config = authInterceptor.request({});
+      const config = authInterceptor.request({});
       expect(config.headers).to.be.empty;
     });
 
     it('should return config with token header', () => {
-      let config;
       session.create('sdfwersdf');
-      config = authInterceptor.request({});
+      const config = authInterceptor.request({});
       expect(config.headers).to.eql({Authorization: 'Bearer sdfwersdf'});
     });
   });
@@ -85,7 +84,7 @@ describe('Provider: authProvider', () => {
     });
 
     it('#login(<uri>, <credentials>) should check user login credentials', function(done) {
-      let fakeData = { token: '1234567890zxcvbnm' };
+      const fakeData = { token: '1234567890zxcvbnm' };
       $httpBackend.expectPOST('/auth/local', {
         username: 'admin',
         password: 'xxdeswersdf'
