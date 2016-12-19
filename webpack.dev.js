@@ -4,7 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const bourbon = require('node-bourbon').includePaths;
 const config = require('./webpack.config.js');
 
-config.devtool = 'eval';
+config.devtool = 'cheap-module-eval-source-map';
+config.performance = {
+  hints: false
+};
 config.entry = {
   'sanji-ui': [
     'webpack/hot/dev-server',
@@ -13,12 +16,28 @@ config.entry = {
   ]
 };
 config.module.rules = [
-  {test: /\.js$/, loader: 'ng-annotate', exclude: /(node_modules)/, enforce: 'post'},
-  {test: /\.scss/, loader: 'style!css!postcss!sass?includePaths[]=' + bourbon},
-  {test: /\.css$/, loader: 'style!css!postcss?browsers=last 2 versions'},
-  {test: /\.(png|jpg|gif|jpeg)$/, loader: 'url-loader?limit=8192', exclude: /node_modules/},
-  {test: /\.(woff|woff2)$/, loader: 'url?limit=10000&minetype=application/font-woff', exclude: /node_modules/},
-  {test: /\.(ttf|eot|svg)$/, loader: 'file', exclude: /node_modules/}
+  {test: /\.js$/, use: 'ng-annotate-loader', exclude: /(node_modules)/, enforce: 'post'},
+  {
+    test: /\.scss/,
+    use: ['style-loader', 'css-loader', 'postcss-loader', {
+      loader: 'sass-loader',
+      options: {
+        includePaths: bourbon
+      }
+    }]
+  },
+  {
+    test: /\.css$/,
+    use: ['style-loader', 'css-loader', {
+      loader: 'postcss-loader',
+      options: {
+        browsers: 'last 2 versions'
+      }
+    }]
+  },
+  {test: /\.(png|jpg|gif|jpeg)$/, use: 'url-loader?limit=8192', exclude: /node_modules/},
+  {test: /\.(woff|woff2)$/, use: 'url-loader?limit=10000&minetype=application/font-woff', exclude: /node_modules/},
+  {test: /\.(ttf|eot|svg)$/, use: 'file-loader', exclude: /node_modules/}
 ].concat(config.module.rules);
 
 config.plugins.push(

@@ -4,7 +4,7 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const NODE_ENV = process.env.NODE_ENV;
 const nodeRoot = path.join(__dirname, 'node_modules');
-const appRoot = path.join(__dirname, 'app');
+const appRoot = path.join(__dirname, 'src');
 const config = {
   context: appRoot,
   output: {
@@ -22,20 +22,19 @@ const config = {
   },
   module: {
     rules: [
-      {test: /\.js$/, loader: 'eslint', exclude: /node_modules/, enforce: 'pre'},
-      {test: /\.js$/, loader: 'babel?cacheDirectory', exclude: /(node_modules)/},
-      { test: /\.html$/, loader: 'ng-cache?prefix=[dir]/[dir]', exclude: [/node_modules/, path.join(__dirname, '/app/index.html')] }
+      {test: /\.js$/, use: 'eslint-loader', exclude: /node_modules/, enforce: 'pre'},
+      {test: /\.js$/, use: 'babel-loader?cacheDirectory', exclude: /(node_modules)/},
+      { test: /\.html$/, use: 'ng-cache-loader?prefix=[dir]/[dir]', exclude: [/node_modules/, path.join(__dirname, '/src/index.html')] }
     ]
   },
   plugins: [
     new ProgressBarPlugin(),
     new LodashModuleReplacementPlugin,
     new webpack.DefinePlugin({
-      __TEST__: 'test' === NODE_ENV,
-      __DEV__: 'development' === NODE_ENV,
-      __RELEASE__: 'production' === NODE_ENV
-    }),
-    new webpack.NoErrorsPlugin()
+      'process.env': {
+        'NODE_ENV': JSON.stringify(NODE_ENV || 'development')
+      }
+    })
   ]
 };
 

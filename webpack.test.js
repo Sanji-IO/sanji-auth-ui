@@ -12,11 +12,27 @@ config.entry = {};
 config.output = {};
 
 config.module.rules = [
-  {test: /\.scss/, loader: 'style!css!postcss!sass?includePaths[]=' + bourbon},
-  {test: /\.css$/, loader: 'style!css!postcss'},
-  {test: /\.(png|jpg|gif|jpeg)$/, loader: 'url-loader?limit=8192'},
-  {test: /\.(woff|woff2)$/, loader: 'url?limit=10000&minetype=application/font-woff'},
-  {test: /\.(ttf|eot|svg)$/, loader: 'file'}
+  {
+    test: /\.scss/,
+    use: ['style-loader', 'css-loader', 'postcss-loader', {
+      loader: 'sass-loader',
+      options: {
+        includePaths: bourbon
+      }
+    }]
+  },
+  {
+    test: /\.css$/,
+    use: ['style-loader', 'css-loader', {
+      loader: 'postcss-loader',
+      options: {
+        browsers: 'last 2 versions'
+      }
+    }]
+  },
+  {test: /\.(png|jpg|gif|jpeg)$/, use: 'url-loader?limit=8192'},
+  {test: /\.(woff|woff2)$/, use: 'url-loader?limit=10000&minetype=application/font-woff'},
+  {test: /\.(ttf|eot|svg)$/, use: 'file-loader'}
 ].concat(config.module.rules);
 
 config.plugins.push(
