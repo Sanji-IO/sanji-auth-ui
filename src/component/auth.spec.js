@@ -1,7 +1,7 @@
 import angular from 'angular';
 import 'angular-mocks';
 
-import {sjAuth} from './index' ;
+import { sjAuth } from './index';
 
 let authProvider;
 let $q, $httpBackend, rest, authService, session, auth, authInterceptor;
@@ -37,7 +37,7 @@ describe('Provider: authProvider', () => {
     const config = {
       roles: {
         admin: 'admin',
-        user:  'user'
+        user: 'user'
       },
       test: 'hello world'
     };
@@ -46,7 +46,8 @@ describe('Provider: authProvider', () => {
   });
 
   it('#$get(<...injects>) should return auth service instance', () => {
-    const obj = authProvider.$get($q, rest, authService, session);
+    const length = authProvider.$get.length;
+    const obj = authProvider.$get[length - 1].call(authProvider, $q, rest, authService, session);
     expect(obj.get).to.be.a('function');
     expect(obj.login).to.be.a('function');
     expect(obj.isAuthenticated).to.be.a('function');
@@ -70,37 +71,40 @@ describe('Provider: authProvider', () => {
     it('should return config with token header', () => {
       session.create('sdfwersdf');
       const config = authInterceptor.request({});
-      expect(config.headers).to.eql({Authorization: 'Bearer sdfwersdf'});
+      expect(config.headers).to.eql({ Authorization: 'Bearer sdfwersdf' });
     });
   });
 
   describe('Service: auth', () => {
-    it('#get(<key>) should return specific value', function() {
+    it('#get(<key>) should return specific value', () => {
       expect(auth.get('roles')).to.eql({
         admin: 'admin',
-        user:  'user',
+        user: 'user',
         guest: 'guest'
       });
     });
 
-    it('#login(<uri>, <credentials>) should check user login credentials', function(done) {
+    it('#login(<uri>, <credentials>) should check user login credentials', done => {
       const fakeData = { token: '1234567890zxcvbnm' };
-      $httpBackend.expectPOST('/auth/local', {
-        username: 'admin',
-        password: 'xxdeswersdf'
-      }).respond(200, fakeData);
-      auth.login('/auth/local', {
-        username: 'admin',
-        password: 'xxdeswersdf'
-      })
-      .then(res => {
-        expect(res.data).to.eql(fakeData);
-        done();
-      });
+      $httpBackend
+        .expectPOST('/auth/local', {
+          username: 'admin',
+          password: 'xxdeswersdf'
+        })
+        .respond(200, fakeData);
+      auth
+        .login('/auth/local', {
+          username: 'admin',
+          password: 'xxdeswersdf'
+        })
+        .then(res => {
+          expect(res.data).to.eql(fakeData);
+          done();
+        });
       $httpBackend.flush();
     });
 
-    it('#isAuthorized(<authorizedRoles>) should return boolean', function() {
+    it('#isAuthorized(<authorizedRoles>) should return boolean', () => {
       expect(auth.isAuthorized()).to.be.false;
       expect(auth.isAuthorized(['hello'])).to.be.false;
       session.setUserData(null);
@@ -112,7 +116,7 @@ describe('Provider: authProvider', () => {
       expect(auth.isAuthorized(['admin'])).to.be.true;
     });
 
-    it('#isAuthenticated() should return boolean', function() {
+    it('#isAuthenticated() should return boolean', () => {
       expect(auth.isAuthenticated()).to.be.false;
       session.create('sdfwersdf');
       expect(auth.isAuthenticated()).to.be.true;

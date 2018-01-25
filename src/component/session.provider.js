@@ -1,7 +1,7 @@
 const $inject = [];
 class SessionProvider {
   constructor(...injects) {
-    SessionProvider.$inject.forEach((item, index) => this[item] = injects[index]);
+    SessionProvider.$inject.forEach((item, index) => (this[item] = injects[index]));
     this.config = {
       tokenHeader: 'Authorization',
       tokenKey: 'token'
@@ -65,7 +65,6 @@ class SessionProvider {
       session[config.tokenKey] = null;
     }
   }
-
 }
 
 SessionProvider.$inject = $inject;

@@ -8,11 +8,11 @@
       "path": "node_modules/cz-conventional-changelog"
     },
     "ghooks": {
-      "pre-commit": "opt --in pre-commit --exec 'npm run validate'"
+      "pre-commit": "opt --in pre-commit --exec 'yarn validate'"
     }
   },
   "scripts": {
-    "validate": "npm run test:once && npm run check-coverage",
+    "validate": "yarn test:once && yarn check-coverage",
     "test": "cross-env NODE_ENV=test BABEL_ENV=test karma start",
     "test:once": "cross-env BABEL_ENV=test karma start",
     "prebuild": "rimraf dist && mkdir dist",
@@ -21,59 +21,24 @@
     "check-coverage": "istanbul check-coverage --statements 75 --branches 75 --functions 75 --lines 75",
     "report-coverage": "cat ./coverage/lcov.info | codecov",
     "start": "cross-env NODE_ENV=development node server/dev-server.js",
-    "publish-latest": "publish-latest",
-    "semantic-release": "semantic-release pre && npm publish && npm run publish-latest && semantic-release post"
+    "prepublishOnly": "yarn build",
+    "travis-deploy-once": "travis-deploy-once",
+    "semantic-release": "semantic-release"
   },
   "devDependencies": {
-    "angular-animate": "~1.5.0",
-    "angular-aria": "~1.5.0",
-    "angular-material": "~1.1.0",
-    "angular-mocks": "~1.5.0",
-    "autoprefixer": "^6.4.0",
-    "babel-core": "^6.0.0",
-    "babel-eslint": "^6.0.4",
-    "babel-loader": "^6.0.0",
-    "babel-plugin-__coverage__": "^11.0.0",
-    "babel-plugin-lodash": "^3.2.4",
-    "babel-preset-es2015": "^6.9.0",
-    "codecov.io": "^0.1.6",
-    "commitizen": "^2.9.0",
-    "cross-env": "^3.1.3",
-    "css-loader": "^0.26.0",
-    "cz-conventional-changelog": "^1.1.5",
-    "eslint": "^3.12.0",
-    "eslint-loader": "^1.6.0",
-    "file-loader": "~0.9.0",
-    "ghooks": "^1.2.0",
-    "html-webpack-plugin": "~2.22.0",
-    "istanbul": "~0.4.2",
-    "jquery": "~2.2.0",
-    "karma": "~1.2.0",
-    "karma-chai-plugins": "~0.7.0",
-    "karma-chrome-launcher": "~2.0.0",
-    "karma-coverage": "~1.1.0",
-    "karma-mocha": "~1.1.1",
-    "karma-sourcemap-loader": "~0.3.7",
-    "karma-spec-reporter": "~0.0.26",
-    "karma-webpack": "~1.8.0",
-    "lodash-webpack-plugin": "^0.10.0",
-    "mocha": "^3.2.0",
-    "ng-annotate-loader": "~0.1.0",
-    "ng-cache-loader": "~0.0.15",
-    "node-bourbon": "~4.2.3",
-    "node-sass": "~4.1.0",
-    "opt-cli": "~1.5.1",
-    "postcss-loader": "^0.11.0",
-    "progress-bar-webpack-plugin": "^1.9.0",
-    "raw-loader": "~0.5.1",
-    "rimraf": "^2.5.4",
-    "sass-loader": "~4.1.0",
-    "semantic-release": "^6.3.2",
-    "style-loader": "~0.13.0",
-    "toastr": "~2.1.2",
-    "url-loader": "~0.5.7",
-    "webpack": "^2.1.0-beta.28",
-    "webpack-dev-server": "^2.1.0-beta.12"
+    "angular": "1.6.8",
+    "angular-animate": "~1.6.8",
+    "angular-aria": "~1.6.8",
+    "angular-http-auth": "^1.5.0",
+    "angular-material": "~1.1.6",
+    "angular-mocks": "~1.6.8",
+    "angular-storage": "^0.0.15",
+    "ng-file-upload": "^12.2.13",
+    "sanji-common-devs-ui": "^7.0.0",
+    "sanji-rest-ui": "^1.5.0",
+    "semantic-release": "^12.2.4",
+    "toastr": "~2.1.4",
+    "travis-deploy-once": "^4.3.3"
   },
   "repository": {
     "type": "git",
@@ -87,10 +52,11 @@
   ],
   "license": "MIT",
   "homepage": "https://github.com/Sanji-IO/sanji-auth-ui",
-  "dependencies": {
-    "angular": "~1.5.0",
-    "angular-http-auth": "~1.5.0",
-    "angular-storage": "~0.0.15",
-    "sanji-rest-ui": "^1.4.1"
-  }
+  "peerDependencies": {
+    "angular": ">=1.5.0 <1.7.0",
+    "angular-http-auth": "^1.5.0",
+    "angular-storage": "^0.0.15",
+    "sanji-rest-ui": "^1.5.0"
+  },
+  "version": "0.0.0-development"
 }

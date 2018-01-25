@@ -1,10 +1,12 @@
 {
-  "parser": "babel-eslint",
-  "extends": "eslint:recommended",
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module"
-  },
+  "extends": [
+    "kentcdodds/possible-errors",
+    "kentcdodds/es6/possible-errors",
+    "kentcdodds/es6/stylistic",
+    "kentcdodds/best-practices",
+    "prettier"
+  ],
+  "plugins": ["prettier"],
   "env": {
     "es6": true,
     "browser": true,
@@ -16,32 +18,24 @@
     "angular": true,
     "sinon": true,
     "expect": true,
-    "__BASE_PATH__": true
+    "Offline": true,
+    "__BASE_PATH__": true,
+    "__API_TOKEN__": true,
+    "__VERSION__": true
   },
   "rules": {
-    "indent": [
+    "prettier/prettier": [
       "error",
-      2,
       {
-        "SwitchCase": 1
+        "printWidth": 120,
+        "singleQuote": true,
+        "trailingComma": "none"
       }
     ],
-    "quotes": [
-      2,
-      "single",
-      {
-        "avoidEscape": true,
-        "allowTemplateLiterals": true
-      }
-    ],
-    "linebreak-style": [
-      2,
-      "unix"
-    ],
-    "semi": [
-      2,
-      "always"
-    ],
-    "no-console": 0
+    "no-console": "off",
+    "complexity": "off",
+    "no-return-assign": "off",
+    "babel/object-curly-spacing": "off",
+    "babel/semi": "off"
   }
 }

@@ -1,11 +1,11 @@
 const $inject = [];
 class AuthProvider {
   constructor(...injects) {
-    AuthProvider.$inject.forEach((item, index) => this[item] = injects[index]);
+    AuthProvider.$inject.forEach((item, index) => (this[item] = injects[index]));
     this.config = {
       roles: {
         admin: 'admin',
-        user:  'user',
+        user: 'user',
         guest: 'guest'
       }
     };
@@ -23,10 +23,10 @@ class AuthProvider {
     let config = this.config;
 
     return {
-      get:             get,
-      login:           login,
+      get: get,
+      login: login,
       isAuthenticated: isAuthenticated,
-      isAuthorized:    isAuthorized
+      isAuthorized: isAuthorized
     };
 
     function get(key) {
@@ -34,19 +34,20 @@ class AuthProvider {
     }
 
     function login(uri, credentials) {
-      return rest.post(uri, credentials, null, {
-        ignoreAuthModule: true
-      })
-      .then(res => {
-        let token = res.data[session.getTokenKey()];
-        authService.loginConfirmed('success', config => {
-          config.headers[session.getTokenHeader()] = 'Bearer ' + token;
-          return config;
-        });
-        session.create(token);
-        return res;
-      })
-      .catch(err => $q.reject(err));
+      return rest
+        .post(uri, credentials, null, {
+          ignoreAuthModule: true
+        })
+        .then(res => {
+          let token = res.data[session.getTokenKey()];
+          authService.loginConfirmed('success', data => {
+            data.headers[session.getTokenHeader()] = 'Bearer ' + token;
+            return data;
+          });
+          session.create(token);
+          return res;
+        })
+        .catch(err => $q.reject(err));
     }
 
     function isAuthenticated() {
@@ -61,13 +62,11 @@ class AuthProvider {
       if (isAuthenticated()) {
         let user = session.getUserData();
         if (user && user.role) {
-          return (-1 !== authorizedRoles.indexOf(user.role)) ? true : false;
-        }
-        else {
+          return authorizedRoles.indexOf(user.role) !== -1 ? true : false;
+        } else {
           return false;
         }
-      }
-      else {
+      } else {
         return false;
       }
     }
