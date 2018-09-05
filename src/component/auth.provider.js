@@ -56,16 +56,12 @@ class AuthProvider {
       if (!Array.isArray(authorizedRoles)) {
         authorizedRoles = [authorizedRoles];
       }
-      if (isAuthenticated()) {
-        let user = session.getUserData();
-        if (user && user.role) {
-          return authorizedRoles.indexOf(user.role) !== -1 ? true : false;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
+      const user = session.getUserData();
+
+      if (isAuthenticated() && (user && user.role)) {
+        return authorizedRoles.includes(user.role);
       }
+      return false;
     }
   }
 }
