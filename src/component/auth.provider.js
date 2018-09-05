@@ -40,10 +40,7 @@ class AuthProvider {
         })
         .then(res => {
           let token = res.data[session.getTokenKey()];
-          authService.loginConfirmed('success', data => {
-            data.headers[session.getTokenHeader()] = 'Bearer ' + token;
-            return data;
-          });
+          authService.loginConfirmed('success', () => false);
           session.create(token);
           return res;
         })
